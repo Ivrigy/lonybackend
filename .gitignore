@@ -1,0 +1,48 @@
+core.Microsoft*
+core.mongo*
+# ── Byte-compiled / optimized / DLL files
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+
+# ── Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ── Django stuff
+*.log
+*.pot
+*.py[co]            # redundant with above but safe
+db.sqlite3
+db.sqlite3-journal
+
+# Static/Coverage
+htmlcov/
+.coverage
+.coverage.*
+*.cover
+coverage.xml
+
+# ── Django migrations
+# ignore all migrations folders, but keep the __init__.py
+**/migrations/*
+!**/migrations/__init__.py
+
+# ── Node / front-end
+node_modules/
+
+# ── IDEs / editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# ── OS files
+.DS_Store
+Thumbs.db
+
