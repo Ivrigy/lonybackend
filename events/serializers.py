@@ -7,9 +7,11 @@ class EventSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source="owner.username")
     is_owner = serializers.SerializerMethodField()
     comments_count = serializers.IntegerField(
-        source="comments.count", read_only=True)
+        source="comments.count", read_only=True
+    )
     likes_count = serializers.IntegerField(
-        source="likes.count", read_only=True)
+        source="likes.count", read_only=True
+    )
 
     def get_is_owner(self, obj):
         request = self.context.get("request")
@@ -18,33 +20,33 @@ class EventSerializer(serializers.ModelSerializer):
     def validate_event_date(self, value):
         if value < timezone.now():
             raise serializers.ValidationError(
-                "The event date cannot be in the past.")
+                "The event date cannot be in the past."
+            )
         return value
 
-
-class Meta:
-    model = Event
-    fields = [
-        "id",
-        "owner",
-        "is_owner",
-        "title",
-        "description",
-        "location",
-        "event_date",
-        "event_link",
-        "comments_count",
-        "likes_count",
-        "created_at",
-        "updated_at",
-    ]
-    read_only_fields = [
-        "owner",
-        "comments_count",
-        "likes_count",
-        "created_at",
-        "updated_at",
-    ]
+    class Meta:
+        model = Event
+        fields = [
+            "id",
+            "owner",
+            "is_owner",
+            "title",
+            "description",
+            "location",
+            "event_date",
+            "event_link",
+            "comments_count",
+            "likes_count",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = [
+            "owner",
+            "comments_count",
+            "likes_count",
+            "created_at",
+            "updated_at",
+        ]
 
 
 class EventCommentSerializer(serializers.ModelSerializer):
