@@ -4,6 +4,7 @@ charset-normalizer==3.4.2
 cloudinary==1.44.0
 Django==3.2.25
 django-cloudinary-storage==0.3.0
+django-filter==23.5
 djangorestframework==3.12.4
 idna==3.10
 pillow==11.2.1
