@@ -15,13 +15,13 @@ class PostList(APIView):
         posts = Post.objects.all()
         serializer = PostSerializer(
             posts, many=True, context={"request": request}
-            )
+        )
         return Response(serializer.data)
 
     def post(self, request):
         serializer = PostSerializer(
             data=request.data, context={"request": request}
-            )
+        )
         if serializer.is_valid():
             serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -44,7 +44,7 @@ class PostDetail(APIView):
         post = self.get_object(pk)
         serializer = PostSerializer(post, context={"request": request})
         return Response(serializer.data)
-    
+
     def put(self, request, pk):
         post = self.get_object(pk)
         serializer = PostSerializer(
@@ -56,7 +56,7 @@ class PostDetail(APIView):
         return Response(
             serializer.errors, status=status.HTTP_400_BAD_REQUEST
         )
-        
+
     def delete(self, request, pk):
         post = self.get_object(pk)
         post.delete()
