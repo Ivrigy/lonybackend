@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 import dj_database_url
 
 
-if os.path.exists("env.py"):
+if os.path.exists('env.py'):
     import env
 
 CLOUDINARY_STORAGE = {
@@ -49,6 +50,19 @@ JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
+if (
+    'ACCESS_TOKEN_LIFETIME' in os.environ and
+    'REFRESH_TOKEN_LIFETIME' in os.environ
+):
+    SIMPLE_JWT = {
+        'ACCESS_TOKEN_LIFETIME': timedelta(
+            seconds=int(os.environ.get('ACCESS_TOKEN_LIFETIME'))
+        ),
+        'REFRESH_TOKEN_LIFETIME': timedelta(
+            seconds=int(os.environ.get('REFRESH_TOKEN_LIFETIME'))
+        ),
+    }
+
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 }
@@ -64,10 +78,19 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
+    os.environ.get('ALLOWED_HOST'),
     'localhost',
     '127.0.0.1',
-    'lony-backend-86431739f0ea.herokuapp.com'
+
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    origin for origin in [
+        os.environ.get('CLIENT_ORIGIN'),
+        os.environ.get('CLIENT_ORIGIN_DEV')
+    ] if origin
+]
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
@@ -111,13 +134,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    origin for origin in [
-        os.environ.get('CLIENT_ORIGIN'),
-        os.environ.get('CLIENT_ORIGIN_DEV')
-    ] if origin
-]
-CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "drf_api.urls"
 
