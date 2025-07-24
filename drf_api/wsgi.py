@@ -9,12 +9,15 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/
 
 import os
 
+# 1. Point Django at your settings module
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "drf_api.settings")
+
+# 2. Monkey‑patch the default_storage proxy
 from django.core.files.storage import default_storage
 from cloudinary_storage.storage import MediaCloudinaryStorage
-from django.core.wsgi import get_wsgi_application
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "drf_api.settings")
 
 default_storage._wrapped = MediaCloudinaryStorage()
 
+# 3. Finally load the WSGI application
+from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
